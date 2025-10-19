@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Редактировать проект</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="container">
+    <h1>✏️ Редактировать проект</h1>
+
+    <form th:action="@{'/projects/edit/' + ${project.id}}" th:object="${project}" method="post" class="add-form">
+        <input type="text" th:field="*{projectName}" placeholder="Название проекта" required>
+        <input type="text" th:field="*{manager}" placeholder="Ответственный за проект" required>
+        <input type="date" th:field="*{deadline}" required>
+        <button type="submit">Сохранить изменения</button>
+    </form>
+
+    <a th:href="@{/projects}" class="button">↩️ Назад к проектам</a>
+</div>
+</body>
+</html>

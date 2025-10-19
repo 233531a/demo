@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Проекты</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="container">
+    <h1>📁 Все проекты</h1>
+
+    <a th:href="@{/projects}" class="button">⚙️ Управление проектами</a>
+
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Название проекта</th>
+            <th>Ответственный за проект</th>
+            <th>Дата</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="project : ${projects}">
+            <td th:text="${project.id}"></td>
+            <td th:text="${project.projectName}"></td>
+            <td th:text="${project.manager}"></td>
+            <td th:text="${project.deadline}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
