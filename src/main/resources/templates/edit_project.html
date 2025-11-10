@@ -1,22 +1,65 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<html lang="ru"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
-    <title>Редактировать проект</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <title>Редактировать проект — МоиПроекты</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" th:href="@{/css/style.css?v=2}">
 </head>
 <body>
-<div class="container">
-    <h1>✏️ Редактировать проект</h1>
+<header class="topbar">
+    <div class="topbar__left">
+        <a th:href="@{/?}" class="brand">МоиПроекты</a>
+        <a th:href="@{/projects}" class="topbar__link">Проекты</a>
+    </div>
+    <div class="topbar__right">
+        <a th:href="@{/projects}" class="button ghost">К списку</a>
+        <form sec:authorize="isAuthenticated()" th:action="@{/logout}" method="post" style="display:inline">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+            <button type="submit" class="button danger ghost">Выйти</button>
+        </form>
 
-    <form th:action="@{'/projects/edit/' + ${project.id}}" th:object="${project}" method="post" class="add-form">
-        <input type="text" th:field="*{projectName}" placeholder="Название проекта" required>
-        <input type="text" th:field="*{manager}" placeholder="Ответственный за проект" required>
-        <input type="date" th:field="*{deadline}" required>
-        <button type="submit">Сохранить изменения</button>
-    </form>
+    </div>
+</header>
 
-    <a th:href="@{/projects}" class="button">↩️ Назад к проектам</a>
-</div>
+<main class="page">
+    <section class="card">
+        <div class="card__header">
+            <h1>Редактировать проект</h1>
+            <p class="muted">Измени поля и нажми «Сохранить».</p>
+        </div>
+        <form th:action="@{'/projects/edit/' + ${project.id}}"
+              th:object="${project}" method="post" class="form-grid">
+            <div class="form-field">
+                <label>Название проекта</label>
+                <input type="text" th:field="*{projectName}" required>
+                <div class="error" th:if="${#fields.hasErrors('projectName')}" th:errors="*{projectName}"></div>
+            </div>
+            <div class="form-field">
+                <label>Ответственный</label>
+                <input type="text" th:field="*{manager}" required>
+                <div class="error" th:if="${#fields.hasErrors('manager')}" th:errors="*{manager}"></div>
+            </div>
+            <div class="form-field">
+                <label>Дедлайн</label>
+                <input type="date" th:field="*{deadline}" required>
+                <div class="error" th:if="${#fields.hasErrors('deadline')}" th:errors="*{deadline}"></div>
+            </div>
+
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+
+            <div class="form-actions">
+                <button type="submit" class="button primary">Сохранить</button>
+                <a th:href="@{/projects}" class="button ghost">Отмена</a>
+            </div>
+        </form>
+    </section>
+</main>
+
+<footer class="footer">
+    <small>© 2025 МоиПроекты</small>
+</footer>
 </body>
 </html>
